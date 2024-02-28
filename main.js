@@ -139,4 +139,8 @@ app.use(function redirectGhost (req, res, next) {
   return res.redirect(301, 'https://utopia.rosano.ca/' + (match || ''));
 });
 
+app.get('*', function redirectWayback (req, res) {
+  return res.redirect(308, `https://web.archive.org/web/https%3A%2F%2F` + req.get('host') + req.url);
+});
+
 app.listen(process.env.PORT);
