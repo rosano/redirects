@@ -38,5 +38,17 @@ app.use(function archiveDomain (req, res, next) {
   return res.redirect(301, map[req.get('host')]);
 });
 
+app.use(function maskDomain (req, res, next) {
+  const map = {
+    'appindex.app': 'https://utopia.rosano.ca/instant-app-index/',
+  };
+
+  if (!Object.keys(map).includes(req.get('host'))) {
+    return next();
+  }
+
+  return res.send(`<!DOCTYPE html><html><head><meta charset="utf-8" /></head><body><iframe style="border: none;" src="${ map[req.get('host')] }"></iframe><style>html,body,iframe { width: 100vw; height: 100vh; padding: 0; margin: 0; }</style></body></html>`);
+});
+
 
 app.listen(process.env.PORT);
