@@ -24,5 +24,19 @@ app.use(function correctDomain (req, res, next) {
   return res.redirect(301, 'https://' + map[req.get('host')] + req.originalUrl);
 });
 
+app.use(function archiveDomain (req, res, next) {
+  const map = {
+    'notethesound.com': 'https://rosano.ca/notethesound',
+    'scrutinizethis.com': 'https://go.rosano.ca/scrutinizethis',
+    'sonogrid.com': 'https://rosano.ca/sonogrid',
+  };
+
+  if (!Object.keys(map).includes(req.get('host'))) {
+    return next();
+  }
+
+  return res.redirect(301, map[req.get('host')]);
+});
+
 
 app.listen(process.env.PORT);
